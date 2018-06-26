@@ -12,18 +12,22 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class MainActivity extends AppCompatActivity {
 
     String currentSign;
+    String[] places;
+    int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] places = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        places = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         currentSign = "X";
         ArrayList<TextView> windows = new ArrayList<>();
 
@@ -75,13 +79,55 @@ public class MainActivity extends AppCompatActivity {
             window.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    window.setText(currentSign);
-                    changeCurrentSign();
+                    if (window.getText() != "X" && window.getText() != "O") {
+                        window.setText(currentSign);
+                        changeCurrentSign();
+//                    afterMoveCheck();
+                    }
                 }
             });
         }
     }
-
+//
+//    private final int [][] winningPositions = {
+//            {0, 1, 2},
+//            {3, 4, 5},
+//            {6, 7, 8},
+//            {0, 3, 6},
+//            {1, 4, 7},
+//            {2, 5, 8},
+//            {0, 4, 8},
+//            {2, 4, 6}
+//    };
+//
+//    void afterMoveCheck() {
+//        if (gameIsWon()) {
+//            finish();
+//        }
+//    }
+//
+//    boolean gameIsWon() {
+//        for (int[] winPath : winningPositions) {
+//            System.out.print("im here");
+//            String currentSign = this.valueAtIndex(winPath[0]);
+//            int currentSignsInWinPath = countCurrentSignsInWinPath(winPath, currentSign);
+//            if (currentSignsInWinPath == winPath.length) return true;
+//        }
+//        return false;
+//    }
+//
+//    String valueAtIndex(int index) {
+//        return places[index];
+//    }
+//
+//    private int countCurrentSignsInWinPath(int[] winPath, String currentSign) {
+//        int numberOfCurrentSignsInWinPath = 0;
+//        for (int aPlaceInWinPath : winPath) {
+//            if (this.valueAtIndex(aPlaceInWinPath).equals(currentSign)) numberOfCurrentSignsInWinPath++;
+//        }
+//        return numberOfCurrentSignsInWinPath;
+//    }
+//
     private void changeCurrentSign() {
         if (currentSign.equals("X")) {
             currentSign = "O";
