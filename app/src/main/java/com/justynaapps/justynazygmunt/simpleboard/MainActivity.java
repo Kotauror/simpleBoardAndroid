@@ -16,13 +16,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    String currentSign;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         String[] places = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        final String currentSign = "X";
+        currentSign = "X";
         ArrayList<TextView> windows = new ArrayList<>();
 
 
@@ -74,17 +76,18 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     window.setText(currentSign);
-//                    changeCurrentSign();
+                    changeCurrentSign();
                 }
             });
         }
-
-//        private static void changeCurrentSign() {
-//            if (currentSign.equals("X")) {
-//                currentSign = "O";
-//            } else {
-//                currentSign = "X";
-//            }
-//        }
     }
+
+    private void changeCurrentSign() {
+        if (currentSign.equals("X")) {
+            currentSign = "O";
+        } else {
+            currentSign = "X";
+        }
+    }
+
 }
