@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     String currentSign;
     String[] places;
-    ArrayList<TextView> placesOnMobileGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,25 +21,36 @@ public class MainActivity extends AppCompatActivity {
 
         places = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         currentSign = "X";
-        placesOnMobileGrid = new ArrayList<TextView>();
 
+        // tworzenie view
         for (int i = 1; i < 10; i++ ){
-            int idOfWindowInMobileGrid = getResources().getIdentifier("place_number_" + i, "id", getPackageName());
-            final TextView placeOnMobileGrid = findViewById(idOfWindowInMobileGrid);
-            placeOnMobileGrid.setText(places[i-1]);
-            placesOnMobileGrid.add(placeOnMobileGrid);
-        }
-
-        for (final TextView placeOnMobileGrid : placesOnMobileGrid) {
+            final TextView placeOnMobileGrid = getTextViewForId(i);
             placeOnMobileGrid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (placeOnMobileGrid.getText() != "X" && placeOnMobileGrid.getText() != "O" && !gameIsWon()) {
-                        placeOnMobileGrid.setText(currentSign);
+                     if (placeOnMobileGrid.getText() != "X" && placeOnMobileGrid.getText() != "O" && !gameIsWon()) {
+                        int position = Integer.parseInt(placeOnMobileGrid.getText().toString()) - 1;
+                        places[position] = currentSign;
                         changeCurrentSign();
+                        renderGridWithNumbers();
                     }
                 }
             });
+        }
+
+        renderGridWithNumbers();
+    }
+
+    private TextView getTextViewForId(int i) {
+        int idOfWindowInMobileGrid = getResources().getIdentifier("place_number_" + i, "id", getPackageName());
+        return findViewById(idOfWindowInMobileGrid);
+
+    }
+
+    private void renderGridWithNumbers() {
+        for (int i = 1; i < 10; i++) {
+            final TextView placeOnMobileGrid = getTextViewForId(i);
+            placeOnMobileGrid.setText(places[i-1]);
         }
     }
 
@@ -64,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     String valueAtIndex(int index) {
-        return (placesOnMobileGrid.get(index).getText()).toString();
+        return places[index];
     }
 
     private int countCurrentSignsInWinPath(int[] winPath, String currentSign) {
