@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     String currentSign;
     String[] places;
-    ArrayList<TextView> windows;
+    ArrayList<TextView> placesOnMobileGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,21 +20,21 @@ public class MainActivity extends AppCompatActivity {
 
         places = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         currentSign = "X";
-        windows = new ArrayList<TextView>();
+        placesOnMobileGrid = new ArrayList<TextView>();
 
         for (int i = 1; i < 10; i++ ){
-            int idOfWindow = getResources().getIdentifier("place_number_" + i, "id", getPackageName());
-            final TextView placeOnMobileGrid = findViewById(idOfWindow);
+            int idOfWindowInMobileGrid = getResources().getIdentifier("place_number_" + i, "id", getPackageName());
+            final TextView placeOnMobileGrid = findViewById(idOfWindowInMobileGrid);
             placeOnMobileGrid.setText(places[i-1]);
-            windows.add(placeOnMobileGrid);
+            placesOnMobileGrid.add(placeOnMobileGrid);
         }
 
-        for (final TextView window : windows) {
-            window.setOnClickListener(new View.OnClickListener() {
+        for (final TextView placeOnMobileGrid : placesOnMobileGrid) {
+            placeOnMobileGrid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (window.getText() != "X" && window.getText() != "O" && !gameIsWon()) {
-                        window.setText(currentSign);
+                    if (placeOnMobileGrid.getText() != "X" && placeOnMobileGrid.getText() != "O" && !gameIsWon()) {
+                        placeOnMobileGrid.setText(currentSign);
                         changeCurrentSign();
                     }
                 }
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             {2, 4, 6}
     };
 
-
     boolean gameIsWon() {
         for (int[] winPath : winningPositions) {
             System.out.print("im here");
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     String valueAtIndex(int index) {
-        return (windows.get(index).getText()).toString();
+        return (placesOnMobileGrid.get(index).getText()).toString();
     }
 
     private int countCurrentSignsInWinPath(int[] winPath, String currentSign) {
