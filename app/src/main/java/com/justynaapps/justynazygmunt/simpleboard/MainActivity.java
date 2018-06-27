@@ -30,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                      if (placeOnMobileGrid.getText() != "X" && placeOnMobileGrid.getText() != "O" && !gameIsWon()) {
                         int position = Integer.parseInt(placeOnMobileGrid.getText().toString()) - 1;
-                        places[position] = currentSign;
-                        changeCurrentSign();
-                        renderGridWithNumbers();
+                         places[position] = currentSign;
+                         renderSingleGrid(position, currentSign);
+                         changeCurrentSign();
+//                       renderGridWithNumbers();
                     }
                 }
             });
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
             final TextView placeOnMobileGrid = getTextViewForId(i);
             placeOnMobileGrid.setText(places[i-1]);
         }
+    }
+
+    private void renderSingleGrid(int position, String currentSign) {
+        final TextView placeOnMobileGrid = getTextViewForId(position+1);
+        placeOnMobileGrid.setText(currentSign);
     }
 
     private final int [][] winningPositions = {
